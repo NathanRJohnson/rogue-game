@@ -39,4 +39,27 @@ abstract class Entity {
         }
         return false;
     }
+
+    public PVector GetPos() {
+        return pos.copy();
+    }
+
+    public void setPosX(float _x){
+        pos.x = _x;
+    }
+    public void setPosY(float _y){
+        pos.y = _y;
+    }
+
+    public PVector GetVel() {
+        return vel.copy();
+    }
+
+    public void setXVel(float _x) {
+        vel.x = _x;
+    }
+
+    public void setYVel(float _y) {
+        vel.y = _y;
+    }
 }

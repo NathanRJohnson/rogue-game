@@ -27,6 +27,7 @@ public class Game extends PApplet{
     public void draw(){
         r.run(this);
         p.run(this);
+        r.applyBoundaries(p);
 
         for (Door d : r.getDoorsMap().values()) {
             if (d.isEntered(p)) {
