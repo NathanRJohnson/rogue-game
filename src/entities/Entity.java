@@ -30,14 +30,9 @@ abstract class Entity extends GameObject {
         acc.add(force);
     }
 
-    public boolean isHit(Projectile p) {
-        PVector dist = PVector.sub(p.getPos(), getPos());
-        if (PApplet.abs(dist.mag()) < r) {
-            health -= p.getDamage();
-            p.setDead();
-            return true;
-        }
-        return false;
+    public void hit(Projectile p) {
+        health -= p.getDamage();
+        p.setDead();
     }
 
     public PVector GetVel() {

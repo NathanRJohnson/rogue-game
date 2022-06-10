@@ -76,6 +76,7 @@ public class Room {
         pa.background(100);
         pa.text(d_room_num, 50, 50);
         Iterator<Enemy> it = enemies.iterator();
+
         while (it.hasNext()) {
             Enemy e = (Enemy) it.next();
             e.run(p, enemies, clock, pa);
@@ -86,7 +87,9 @@ public class Room {
 
         for (Projectile p : p.getLauncher().getProjectiles()) {
             for (Enemy e : enemies) {
-                e.isHit(p);
+                if (e.collides(p)) {
+                    e.hit(p);
+                }
             }
         }
 

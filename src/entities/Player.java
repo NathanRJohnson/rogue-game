@@ -12,7 +12,7 @@ public class Player extends Entity{
     private PVector facing;
 
     public Player() {
-        super(500,500, 30, 30);
+        super(500,500, 40, 40);
         facing = new PVector();
 
         inputs = new boolean[4];
@@ -62,7 +62,7 @@ public class Player extends Entity{
         pa.fill(255-health, health, 0);
         pa.stroke(0);
         pa.pushMatrix();
-        pa.translate(getPos().x, getPos().y);
+        pa.translate(getPos().x + r, getPos().y + r);
         pa.rotate(theta);
         pa.beginShape();
         pa.vertex(0, -r*2);
@@ -70,7 +70,7 @@ public class Player extends Entity{
         pa.vertex(r, r*2);
         pa.endShape(PApplet.CLOSE);
         pa.popMatrix();
-        displayHitBox(pa);
+//        displayHitBox(pa);
     }
 
     public void setPosByCompass(Direction d) {

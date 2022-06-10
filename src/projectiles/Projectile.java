@@ -1,21 +1,23 @@
 package projectiles;
 
+import entities.GameObject;
 import processing.core.PApplet;
 import processing.core.PVector;
 
-public class Projectile {
-    PVector pos, vel;
+public class Projectile extends GameObject {
+    PVector vel;
     float size;
     float lifespan, decay_rate, damage;
     boolean isDead;
 
-    public Projectile(PVector _pos, float _range, float _speed, float _damage) {
-        pos = _pos.copy();
+    public Projectile(PVector _pos, float _range, float _speed, float _damage){
+        super(_pos.copy(),15, 15);
         vel = new PVector();
         lifespan = _range;
         decay_rate = _speed;
         damage = _damage;
         isDead = false;
+
     }
 
     public boolean isDead() {
@@ -28,13 +30,15 @@ public class Projectile {
     }
 
     private void update() {
-        pos.add(vel);
+        addToPos(vel);
+        updateHitBox();
     }
 
-    private void display(PApplet p) {
-        p.fill(255, 0, 0);
-        p.ellipse(pos.x, pos.y, 15, 15);
+    private void display(PApplet pa) {
+        pa.fill(255, 0, 0);
+        pa.ellipse(getPos().x + 7, getPos().y + 7, 15, 15);
         lifespan -= decay_rate;
+//        displayHitBox(pa);
     }
 
     public void setVel(PVector _v) {
@@ -49,7 +53,4 @@ public class Projectile {
         isDead = true;
     }
 
-    public PVector getPos() {
-        return pos;
-    }
 }

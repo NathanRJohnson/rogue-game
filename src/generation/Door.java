@@ -42,7 +42,7 @@ public class Door extends GameObject {
     void display(PApplet pa) {
         pa.fill(204, 136, 153); // #CC8899
         pa.rect(getPos().x, getPos().y, getWidth(), getHeight());
-        displayHitBox(pa);
+//        displayHitBox(pa);
     }
 
     public boolean isEntered(Player p) {
