@@ -12,7 +12,7 @@ public class Enemy extends Entity{
     public double time_of_attack;
 
     public Enemy(PApplet pa) {
-        super(pa.random(100, 500), pa.random(100, 500));
+        super(pa.random(100, 500), pa.random(100, 500), 70, 70);
         health = 255;
         r = 35;
         maxspeed = 3;
@@ -22,7 +22,7 @@ public class Enemy extends Entity{
     }
 
     public void attack(Player player, Clock c) {
-        PVector dist = PVector.sub(player.getPos(), this.pos);
+        PVector dist = PVector.sub(player.getPos(), this.getPos());
         if (canAttack(c) && PApplet.abs(dist.mag()) < 30.0) {
             player.health -= 25;
             time_of_attack = c.getTime();
@@ -51,12 +51,12 @@ public class Enemy extends Entity{
     void update(PApplet pa) {
         vel.add(acc);
         vel.limit(maxspeed);
-        pos.add(vel);
+        addToPos(vel);
         acc.mult(0);
     }
 
     PVector hunt(PVector player_pos) {
-        PVector dir = PVector.sub(player_pos, this.pos);
+        PVector dir = PVector.sub(player_pos, this.getPos());
         dir.normalize();
         dir.mult(1);
         return dir;
@@ -68,9 +68,9 @@ public class Enemy extends Entity{
         float count = 0;
         PVector steer = new PVector();
         for (Enemy other : enemies) {
-            float d = PVector.dist(pos, other.pos);
+            float d = PVector.dist(getPos(), other.getPos());
             if (d > 0 && d < desired_seperation) {
-                PVector diff = PVector.sub(pos, other.pos);
+                PVector diff = PVector.sub(getPos(), other.getPos());
                 diff.normalize();
                 diff.div(d);
                 sum.add(diff);
@@ -89,8 +89,8 @@ public class Enemy extends Entity{
 
     @Override
     void display(PApplet pa) {
-        pa.rectMode(PApplet.CENTER);
+//        pa.rectMode(PApplet.CENTER);
         pa.fill(255 - health, health, 0);
-        pa.rect(pos.x, pos.y, 2*r, 2*r);
+        pa.rect(getPos().x, getPos().y, 2*r, 2*r);
     }
 }

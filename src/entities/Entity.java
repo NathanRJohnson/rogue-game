@@ -4,13 +4,13 @@ import processing.core.PApplet;
 import processing.core.PVector;
 import projectiles.Projectile;
 
-abstract class Entity {
-    PVector pos, vel, acc;
+abstract class Entity extends GameObject {
+    PVector vel, acc;
     float maxspeed, r;
     float health;
 
-    Entity(float x, float y){
-        pos = new PVector(x, y);
+    Entity(float x, float y, float _w, float _h){
+        super( new PVector(x, y), _w, _h );
         vel = new PVector();
         acc = new PVector();
         maxspeed = 6;
@@ -31,24 +31,13 @@ abstract class Entity {
     }
 
     public boolean isHit(Projectile p) {
-        PVector dist = PVector.sub(p.getPos(), pos);
+        PVector dist = PVector.sub(p.getPos(), getPos());
         if (PApplet.abs(dist.mag()) < r) {
             health -= p.getDamage();
             p.setDead();
             return true;
         }
         return false;
-    }
-
-    public PVector GetPos() {
-        return pos.copy();
-    }
-
-    public void setPosX(float _x){
-        pos.x = _x;
-    }
-    public void setPosY(float _y){
-        pos.y = _y;
     }
 
     public PVector GetVel() {
