@@ -16,12 +16,7 @@ public class RoomBuilder {
     }
 
     void connectRooms(Room Room1, Room Room2, Direction card_direction){
-
-        Door d1 = new Door(card_direction, Room2);
-        Room1.doors.put(card_direction, d1);
-        // print("  Added door to " + card_direction);
-        Door d2 = new Door(card_direction.getOpposite(), Room1);
-        Room2.doors.put(card_direction.getOpposite(), d2);
-        // print("  Added door to " + card_direction.getOpposite());
+        Room1.addDoor(card_direction, Room2);
+        Room2.addDoor(card_direction.getOpposite(), Room1);
     }
 }

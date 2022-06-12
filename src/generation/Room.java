@@ -5,6 +5,7 @@ import entities.Player;
 import processing.core.PApplet;
 import projectiles.Projectile;
 import tools.Clock;
+import tools.Constants;
 import tools.Direction;
 
 import java.util.ArrayList;
@@ -26,9 +27,9 @@ public class Room {
         clock = _c;
 
         north_boundary = 15;
-        south_boundary = 1080 - 15;
+        south_boundary = Constants.HEIGHT - 15;
         east_boundary = 15;
-        west_boundary = 1920 - 15;
+        west_boundary = Constants.WIDTH - 15;
     }
 
     public void initRoom(PApplet pa) {
@@ -55,16 +56,16 @@ public class Room {
 
     public void applyBoundaries(Player player) {
         //quick spike to see what direction velo is moving in
-        if (player.GetPos().y <= north_boundary && player.GetVel().y < 0) {
+        if (player.getPos().y <= north_boundary && player.GetVel().y < 0) {
             player.setYVel(0);
         }
-        if (player.GetPos().y >= south_boundary && player.GetVel().y > 0) {
+        if (player.getPos().y >= south_boundary && player.GetVel().y > 0) {
             player.setYVel(0);
         }
-        if (player.GetPos().x <= east_boundary && player.GetVel().x < 0) {
+        if (player.getPos().x <= east_boundary && player.GetVel().x < 0) {
             player.setXVel(0);
         }
-        if (player.GetPos().x >= west_boundary && player.GetVel().x > 0) {
+        if (player.getPos().x >= west_boundary && player.GetVel().x > 0) {
             player.setXVel(0);
         }
 
@@ -75,6 +76,7 @@ public class Room {
         pa.background(100);
         pa.text(d_room_num, 50, 50);
         Iterator<Enemy> it = enemies.iterator();
+
         while (it.hasNext()) {
             Enemy e = (Enemy) it.next();
             e.run(p, enemies, clock, pa);
@@ -85,7 +87,9 @@ public class Room {
 
         for (Projectile p : p.getLauncher().getProjectiles()) {
             for (Enemy e : enemies) {
-                e.isHit(p);
+                if (e.collides(p)) {
+                    e.hit(p);
+                }
             }
         }
 
