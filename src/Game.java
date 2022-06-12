@@ -3,6 +3,7 @@ import generation.Door;
 import generation.Map;
 import generation.Room;
 import processing.core.PApplet;
+import processing.core.PVector;
 import tools.Clock;
 import tools.Constants;
 import tools.Direction;
@@ -22,6 +23,7 @@ public class Game extends PApplet{
         m = new Map(p, clock);
         m.buildMapGraph(this);
         r = m.getStartRoom();
+        r.initRoom(this);
     }
 
     public void draw(){
@@ -49,7 +51,7 @@ public class Game extends PApplet{
     }
 
     public void mousePressed() {
-        p.fire(this);
+        p.fire(new PVector(mouseX, mouseY));
     }
 
     public static void main(String[] args) {

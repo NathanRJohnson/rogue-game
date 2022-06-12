@@ -2,6 +2,7 @@ package generation;
 
 import entities.Enemy;
 import entities.Player;
+import entities.Shooter;
 import processing.core.PApplet;
 import projectiles.Projectile;
 import tools.Clock;
@@ -34,7 +35,7 @@ public class Room {
 
     public void initRoom(PApplet pa) {
         enemies.add(new Enemy(pa));
-        enemies.add(new Enemy(pa));
+        enemies.add(new Shooter(pa));
     }
 
     public void addDoor(Direction d, Room nextRoom){

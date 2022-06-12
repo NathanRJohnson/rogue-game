@@ -89,8 +89,8 @@ public class Player extends Entity{
         }
     }
 
-    public void fire(PApplet p) {
-        launcher.fire(p);
+    public void fire(PVector target) {
+        launcher.fire(target);
     }
 
     public Launcher getLauncher() {
