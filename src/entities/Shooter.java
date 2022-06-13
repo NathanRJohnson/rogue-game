@@ -37,7 +37,7 @@ public class Shooter extends Enemy{
     }
 
     @Override
-    PVector target(PVector player_pos) {
+    protected PVector target(PVector player_pos) {
         return PVector.sub(player_pos, this.getPos());
     }
 

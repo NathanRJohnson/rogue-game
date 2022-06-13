@@ -1,5 +1,6 @@
 package generation;
 
+import entities.Charger;
 import entities.Enemy;
 import entities.Player;
 import entities.Shooter;
@@ -8,7 +9,7 @@ import projectiles.Projectile;
 import tools.Clock;
 import tools.Constants;
 import tools.Direction;
-
+import entities.Entity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -34,8 +35,9 @@ public class Room {
     }
 
     public void initRoom(PApplet pa) {
-        enemies.add(new Enemy(pa));
-        enemies.add(new Shooter(pa));
+//        enemies.add(new Enemy(pa));
+//        enemies.add(new Shooter(pa));
+        enemies.add(new Charger(pa));
     }
 
     public void addDoor(Direction d, Room nextRoom){
@@ -55,19 +57,19 @@ public class Room {
         d_room_num = n;
     }
 
-    public void applyBoundaries(Player player) {
+    public void applyBoundaries(Entity entity) {
         //quick spike to see what direction velo is moving in
-        if (player.getPos().y <= north_boundary && player.GetVel().y < 0) {
-            player.setYVel(0);
+        if (entity.getPos().y <= north_boundary && entity.GetVel().y < 0) {
+            entity.setYVel(0);
         }
-        if (player.getPos().y >= south_boundary && player.GetVel().y > 0) {
-            player.setYVel(0);
+        if (entity.getPos().y >= south_boundary && entity.GetVel().y > 0) {
+            entity.setYVel(0);
         }
-        if (player.getPos().x <= east_boundary && player.GetVel().x < 0) {
-            player.setXVel(0);
+        if (entity.getPos().x <= east_boundary && entity.GetVel().x < 0) {
+            entity.setXVel(0);
         }
-        if (player.getPos().x >= west_boundary && player.GetVel().x > 0) {
-            player.setXVel(0);
+        if (entity.getPos().x >= west_boundary && entity.GetVel().x > 0) {
+            entity.setXVel(0);
         }
 
     }
@@ -81,6 +83,7 @@ public class Room {
         while (it.hasNext()) {
             Enemy e = (Enemy) it.next();
             e.run(p, enemies, clock, pa);
+            applyBoundaries(e);
             if (e.isDead()) {
                 it.remove();
             }
