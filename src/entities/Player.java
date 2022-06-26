@@ -12,11 +12,11 @@ public class Player extends Entity{
     private PVector facing;
 
     public Player() {
-        super(500,500);
+        super(500,500, 40, 40);
         facing = new PVector();
 
         inputs = new boolean[4];
-        launcher = new Launcher(pos, 400, 8);
+        launcher = new Launcher(getPos(), 400, 8);
         r = 15;
         launcher.setDamage(150);
         health = 255;
@@ -31,22 +31,22 @@ public class Player extends Entity{
     public void update(PApplet p) {
         launcher.update(p);
         move();
-        facing = PVector.sub(new PVector(p.mouseX, p.mouseY), pos);
+        facing = PVector.sub(new PVector(p.mouseX, p.mouseY), getPos());
 
         //removes creep
         if (PApplet.abs(vel.mag())<= 0.1) {
             vel.mult(0);
         }
 
-        pos.add(vel);
-        launcher.setPos(pos);
-
+        addToPos(vel);
+        launcher.setPos(getPos());
+        updateHitBox();
 
         //drag effect
         PVector inv = vel.copy();
         inv.normalize();
         inv.mult(-1);
-        inv.mult((float) 0.1);
+        inv.mult((float) 0.3);
         acc.add(inv);
 
         vel.add(acc);
@@ -56,35 +56,36 @@ public class Player extends Entity{
     }
 
     @Override
-    public void display(PApplet p) {
-        p.fill(193,	37,	173);
+    public void display(PApplet pa) {
+        pa.fill(193,	37,	173);
         float theta = facing.heading() + PApplet.PI/2;
-        p.fill(255-health, health, 0);
-        p.stroke(0);
-        p.pushMatrix();
-        p.translate(pos.x, pos.y);
-        p.rotate(theta);
-        p.beginShape();
-        p.vertex(0, -r*2);
-        p.vertex(-r, r*2);
-        p.vertex(r, r*2);
-        p.endShape(PApplet.CLOSE);
-        p.popMatrix();
+        pa.fill(255-health, health, 0);
+        pa.stroke(0);
+        pa.pushMatrix();
+        pa.translate(getPos().x + r, getPos().y + r);
+        pa.rotate(theta);
+        pa.beginShape();
+        pa.vertex(0, -r*2);
+        pa.vertex(-r, r*2);
+        pa.vertex(r, r*2);
+        pa.endShape(PApplet.CLOSE);
+        pa.popMatrix();
+//        displayHitBox(pa);
     }
 
     public void setPosByCompass(Direction d) {
         switch (d) {
             case NORTH:
-                pos.set(Constants.WIDTH/2, Constants.HEIGHT - 100);
+                setPos(Constants.WIDTH/2, Constants.HEIGHT - 100);
                 break;
             case SOUTH:
-                pos.set(Constants.WIDTH/2, 100);
+                setPos(Constants.WIDTH/2, 100);
                 break;
             case EAST:
-                pos.set(100, Constants.HEIGHT/2);
+                setPos(100, Constants.HEIGHT/2);
                 break;
             case WEST:
-                pos.set(Constants.WIDTH - 100, Constants.HEIGHT/2);
+                setPos(Constants.WIDTH - 100, Constants.HEIGHT/2);
         }
     }
 
@@ -138,9 +139,5 @@ public class Player extends Entity{
         } else if (k == 'd' || k == 'D') {
             inputs[3] = false;
         }
-    }
-
-    public PVector getPos(){
-        return pos;
     }
 }
