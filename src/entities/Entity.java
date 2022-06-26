@@ -4,13 +4,13 @@ import processing.core.PApplet;
 import processing.core.PVector;
 import projectiles.Projectile;
 
-abstract class Entity extends GameObject {
+public abstract class Entity extends GameObject {
     PVector vel, acc;
     float maxspeed, r;
     float health;
 
     Entity(float x, float y, float _w, float _h){
-        super( new PVector(x, y), _w, _h );
+        super(new PVector(x, y), _w, _h );
         vel = new PVector();
         acc = new PVector();
         maxspeed = 6;

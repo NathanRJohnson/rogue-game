@@ -1,16 +1,20 @@
 package generation;
 
+import entities.Charger;
 import entities.Enemy;
 import entities.Player;
+import entities.Shooter;
 import processing.core.PApplet;
 import projectiles.Projectile;
 import tools.Clock;
 import tools.Constants;
 import tools.Direction;
-
+import entities.Entity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+
+import static java.lang.Math.random;
 
 public class Room {
     private ArrayList<Enemy> enemies;
@@ -30,15 +34,30 @@ public class Room {
         south_boundary = Constants.HEIGHT - 15;
         east_boundary = 15;
         west_boundary = Constants.WIDTH - 15;
+
     }
 
     public void initRoom(PApplet pa) {
-        enemies.add(new Enemy(pa));
-        enemies.add(new Enemy(pa));
+
+    }
+
+    public void generateEnemySet(PApplet pa){
+        double r = Math.random();
+        if (r < 0.33) {
+            generate_one(pa);
+        } else if (r < 0.66) {
+            generate_two(pa);
+        } else {
+            generate_two(pa);
+        }
     }
 
     public void addDoor(Direction d, Room nextRoom){
         doors.put(d, new Door(d, nextRoom));
+    }
+
+    public void addDoor(Direction d, Room nextRoom, boolean isLocked){
+        doors.put(d, new Door(d, nextRoom, isLocked));
     }
 
 
@@ -54,21 +73,27 @@ public class Room {
         d_room_num = n;
     }
 
-    public void applyBoundaries(Player player) {
+    public void applyBoundaries(Entity entity) {
         //quick spike to see what direction velo is moving in
-        if (player.getPos().y <= north_boundary && player.GetVel().y < 0) {
-            player.setYVel(0);
+        if (entity.getPos().y <= north_boundary && entity.GetVel().y < 0) {
+            entity.setYVel(0);
         }
-        if (player.getPos().y >= south_boundary && player.GetVel().y > 0) {
-            player.setYVel(0);
+        if (entity.getPos().y >= south_boundary && entity.GetVel().y > 0) {
+            entity.setYVel(0);
         }
-        if (player.getPos().x <= east_boundary && player.GetVel().x < 0) {
-            player.setXVel(0);
+        if (entity.getPos().x <= east_boundary && entity.GetVel().x < 0) {
+            entity.setXVel(0);
         }
-        if (player.getPos().x >= west_boundary && player.GetVel().x > 0) {
-            player.setXVel(0);
+        if (entity.getPos().x >= west_boundary && entity.GetVel().x > 0) {
+            entity.setXVel(0);
         }
 
+    }
+
+    public void unlockDoors(){
+        for (Door d : doors.values()){
+            d.setLocked(false);
+        }
     }
 
     //display and update
@@ -80,9 +105,14 @@ public class Room {
         while (it.hasNext()) {
             Enemy e = (Enemy) it.next();
             e.run(p, enemies, clock, pa);
+            applyBoundaries(e);
             if (e.isDead()) {
                 it.remove();
             }
+        }
+
+        if (enemies.isEmpty()){
+            unlockDoors();
         }
 
         for (Projectile p : p.getLauncher().getProjectiles()) {
@@ -95,8 +125,23 @@ public class Room {
 
         for (Door d: doors.values()){
             d.display(pa);
-            d.isEntered(p);
         }
+    }
+
+    private void generate_one(PApplet pa){
+        enemies.add(new Enemy(pa));
+        enemies.add(new Enemy(pa));
+        enemies.add(new Enemy(pa));
+    }
+    private void generate_two(PApplet pa){
+        enemies.add(new Enemy(pa));
+        enemies.add(new Shooter(pa));
+        enemies.add(new Shooter(pa));
+    }
+    private void generate_three(PApplet pa){
+        enemies.add(new Charger(pa));
+        enemies.add(new Shooter(pa));
+        enemies.add(new Charger(pa));
     }
 
     public HashMap<Direction, Door> getDoorsMap(){
