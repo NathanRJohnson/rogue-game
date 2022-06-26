@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import static java.lang.Math.random;
+
 public class Room {
     private ArrayList<Enemy> enemies;
     private Player p;
@@ -32,16 +34,30 @@ public class Room {
         south_boundary = Constants.HEIGHT - 15;
         east_boundary = 15;
         west_boundary = Constants.WIDTH - 15;
+
     }
 
     public void initRoom(PApplet pa) {
-//        enemies.add(new Enemy(pa));
-//        enemies.add(new Shooter(pa));
-        enemies.add(new Charger(pa));
+
+    }
+
+    public void generateEnemySet(PApplet pa){
+        double r = Math.random();
+        if (r < 0.33) {
+            generate_one(pa);
+        } else if (r < 0.66) {
+            generate_two(pa);
+        } else {
+            generate_two(pa);
+        }
     }
 
     public void addDoor(Direction d, Room nextRoom){
         doors.put(d, new Door(d, nextRoom));
+    }
+
+    public void addDoor(Direction d, Room nextRoom, boolean isLocked){
+        doors.put(d, new Door(d, nextRoom, isLocked));
     }
 
 
@@ -74,6 +90,12 @@ public class Room {
 
     }
 
+    public void unlockDoors(){
+        for (Door d : doors.values()){
+            d.setLocked(false);
+        }
+    }
+
     //display and update
     public void run(PApplet pa) {
         pa.background(100);
@@ -89,6 +111,10 @@ public class Room {
             }
         }
 
+        if (enemies.isEmpty()){
+            unlockDoors();
+        }
+
         for (Projectile p : p.getLauncher().getProjectiles()) {
             for (Enemy e : enemies) {
                 if (e.collides(p)) {
@@ -99,8 +125,23 @@ public class Room {
 
         for (Door d: doors.values()){
             d.display(pa);
-            d.isEntered(p);
         }
+    }
+
+    private void generate_one(PApplet pa){
+        enemies.add(new Enemy(pa));
+        enemies.add(new Enemy(pa));
+        enemies.add(new Enemy(pa));
+    }
+    private void generate_two(PApplet pa){
+        enemies.add(new Enemy(pa));
+        enemies.add(new Shooter(pa));
+        enemies.add(new Shooter(pa));
+    }
+    private void generate_three(PApplet pa){
+        enemies.add(new Charger(pa));
+        enemies.add(new Shooter(pa));
+        enemies.add(new Charger(pa));
     }
 
     public HashMap<Direction, Door> getDoorsMap(){

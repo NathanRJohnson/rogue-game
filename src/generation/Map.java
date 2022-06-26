@@ -42,7 +42,7 @@ public class Map {
             if (!prevRoom.doorExistsAt(card_direction)) {
                 // println("SUCCESS!");
                 current_rooms++;
-                newRoom = rb.buildRoom(player, clock);
+                newRoom = rb.buildRoom(player, clock, pa);
                 newRoom.set_d_num(current_rooms);
                 rb.connectRooms(prevRoom, newRoom, card_direction);
 

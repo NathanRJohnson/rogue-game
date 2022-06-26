@@ -23,7 +23,7 @@ public class Game extends PApplet{
         m = new Map(p, clock);
         m.buildMapGraph(this);
         r = m.getStartRoom();
-        r.initRoom(this);
+//        r.initRoom(this);
     }
 
     public void draw(){
@@ -32,7 +32,7 @@ public class Game extends PApplet{
         r.applyBoundaries(p);
 
         for (Door d : r.getDoorsMap().values()) {
-            if (d.isEntered(p)) {
+            if (!d.isLocked() && d.isEntered(p)) {
                 Direction card_dir = d.getDirection();
                 p.setPosByCompass(card_dir);
                 r = d.getNextRoom();
