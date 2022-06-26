@@ -4,17 +4,19 @@ import processing.core.PApplet;
 import processing.core.PVector;
 
 public abstract class GameObject {
-    private PVector pos;
+    private PVector pos, centeredPos;
     private float w, h;
     private float top, bottom, left, right;
 
     public GameObject() {
         pos = new PVector();
+        centeredPos = new PVector();
     }
     public GameObject(PVector _pos, float _w, float _h){
         pos = _pos;
         w = _w;
         h = _h;
+        centeredPos = new PVector(pos.x + w/2, pos.y + h/2);
         updateHitBox();
     }
 
@@ -45,6 +47,18 @@ public abstract class GameObject {
 
     public PVector getPos() {
         return pos.copy();
+    }
+
+    public PVector getCenteredPos() {
+        return centeredPos.copy();
+    }
+
+    public void setCenteredPos(PVector _cp){
+        centeredPos.set(_cp);
+    }
+
+    public void updateCenteredPos(){
+        centeredPos.set(pos.x + w/2, pos.y + h/2);
     }
 
     public void setPos(PVector p){

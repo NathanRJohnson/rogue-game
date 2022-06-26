@@ -11,6 +11,9 @@ public class Enemy extends Entity{
     public double attack_delay;
     public double time_of_attack;
     public double attack_backswing;
+    public double damage;
+    public float attack_range;
+    protected boolean canAttack;
 
     public Enemy(PApplet pa) {
         super(pa.random(100, 500), pa.random(100, 500), 70, 70);
@@ -21,42 +24,56 @@ public class Enemy extends Entity{
         attack_delay = 0.5;
         attack_backswing = 0.25;
         time_of_attack = 0.0;
+        damage = 25;
+        canAttack = true;
     }
 
-    public void attack(Player player, Clock c) {
-
-        if (canAttack(c) && this.collides(player)) {
-            player.health -= 25;
-            time_of_attack = c.getTime();
-            this.vel.mult(0);
-        }
-    }
-
-    private boolean canAttack(Clock c){
-        if (time_of_attack + attack_delay + attack_backswing < c.getTime()){
-            return true;
-        }
-        return false;
-    }
-
-    private boolean isAttacking(Clock c){
-        if (time_of_attack + attack_backswing > c.getTime()){
-            return true;
-        }
-        return false;
-    }
-
-    public void run(Player p, ArrayList<Enemy> enemies, Clock clock, PApplet pa) {
-        PVector hunt = hunt(p.getPos());
+    public void run(Player player, ArrayList<Enemy> enemies, Clock clock, PApplet pa) {
+        PVector hunt = target(player.getPos());
         PVector sep = separate(enemies);
         hunt.mult((float) 0.5);
-        attack(p, clock);
+
+        if (canAttack(clock) && this.collides(player)){
+            attack(player, clock);
+        }
         applyForce(hunt);
         applyForce(sep);
+
         if (!isAttacking(clock)) {
             update(pa);
         }
         display(pa);
+    }
+
+    public void attack(Player player, Clock c) {
+        player.health -= damage;
+        time_of_attack = c.getTime();
+        this.vel.mult(0);
+    }
+
+    protected boolean canAttack(Clock c){
+        if (time_of_attack + attack_delay + attack_backswing < c.getTime()){
+            canAttack = true;
+        } else {
+            canAttack = false;
+        }
+        return canAttack;
+    }
+
+
+    protected boolean inRange(PApplet pa, Player p) {
+        return PApplet.abs(PVector.sub(p.getPos(), getPos()).mag()) < attack_range;
+    }
+
+    protected  boolean inRange(PVector p){
+        return PApplet.abs(p.mag()) < attack_range;
+    }
+
+    protected boolean isAttacking(Clock c){
+        if (time_of_attack + attack_backswing > c.getTime()){
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -68,11 +85,17 @@ public class Enemy extends Entity{
         acc.mult(0);
     }
 
-    PVector hunt(PVector player_pos) {
+    protected PVector target(PVector player_pos) {
         PVector dir = PVector.sub(player_pos, this.getPos());
         dir.normalize();
-        dir.mult(1);
         return dir;
+    }
+
+    protected void seek(PVector target) {
+        PVector dir = PVector.sub(target, this.getPos());
+        dir.normalize();
+        dir.mult(maxspeed);
+        applyForce(dir);
     }
 
     public PVector separate(ArrayList<Enemy> enemies) {
@@ -106,5 +129,12 @@ public class Enemy extends Entity{
         pa.fill(255 - health, health, 0);
         pa.rect(getPos().x, getPos().y, 2*r, 2*r);
 //        displayHitBox(pa);
+    }
+    public void setCanAttack(boolean b){
+        canAttack = b;
+    }
+
+    public boolean getCanAttack(){
+        return canAttack;
     }
 }

@@ -13,12 +13,12 @@ public class Launcher {
     Iterator<Projectile> it;
 
 
-    public Launcher(PVector _pos, float _r, float _s) {
+    public Launcher(PVector _pos, float _range, float _speed) {
         projectiles = new ArrayList<Projectile>();
         pos = _pos.copy();
-        range = _r;
-        speed = _s; //projectile speed
-        damage = 17;
+        range = _range;
+        speed = _speed; //projectile speed
+        damage = 0;
     }
 
     public void update(PApplet p) {
@@ -32,15 +32,20 @@ public class Launcher {
         }
     }
 
-    public void fire(PApplet pa) {
-        PVector mouse = new PVector(pa.mouseX, pa.mouseY);
+    public void fire(PVector target) {
         //PVector mouse = new PVector(width/2, 0);
-        PVector direction = PVector.sub(mouse, pos);
+        PVector direction = PVector.sub(target, pos);
         direction.normalize();
         direction.mult(speed);
         Projectile p = new Projectile(pos, range, speed, damage);
         p.setVel(direction);
         projectiles.add(p);
+    }
+
+    public void displayAttackRange(PApplet pa){
+        pa.stroke(1);
+        pa.noFill();
+        pa.ellipse(pos.x, pos.y, range * 2, range * 2);
     }
 
     public ArrayList<Projectile> getProjectiles(){
