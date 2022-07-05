@@ -14,6 +14,8 @@ public class Game extends PApplet{
     Room r;
     Clock clock;
     Map m;
+    PApplet gameWindow;
+    int gameState;
 
     public void settings(){
         size(Constants.WIDTH,Constants.HEIGHT);
@@ -23,23 +25,40 @@ public class Game extends PApplet{
         m = new Map(p, clock);
         m.buildMapGraph(this);
         r = m.getStartRoom();
-//        r.initRoom(this);
+        gameState = Constants.GAMESTATE_PLAY;
     }
 
-    public void draw(){
-        r.run(this);
-        p.run(this);
-        r.applyBoundaries(p);
+    public void draw() {
+        gameWindow = this;
+        if (gameState == Constants.GAMESTATE_PLAY) {
+            r.run(gameWindow);
+            p.run(gameWindow);
+            r.applyBoundaries(p);
 
-        for (Door d : r.getDoorsMap().values()) {
-            if (!d.isLocked() && d.isEntered(p)) {
-                Direction card_dir = d.getDirection();
-                p.setPosByCompass(card_dir);
-                r = d.getNextRoom();
-                r.initRoom(this);
+            if (r.getRoomNum() == 11 && r.getEnemies().isEmpty()) gameState = Constants.GAMESTATE_WIN;
+
+            if (p.getHealth() < 0.0) gameState = Constants.GAMESTATE_LOSE;
+
+            for (Door d : r.getDoorsMap().values()) {
+                if (!d.isLocked() && d.isEntered(p)) {
+                    Direction card_dir = d.getDirection();
+                    p.setPosByCompass(card_dir);
+                    r = d.getNextRoom();
+                    r.initRoom(gameWindow);
+                }
             }
+            clock.run();
+        } else if (gameState == Constants.GAMESTATE_LOSE) {
+            textSize(128);
+            fill(0);
+            text("You Lose!!", 345, Constants.HEIGHT/2 + 40);
         }
-        clock.run();
+        else if (gameState == Constants.GAMESTATE_WIN) {
+            textSize(128);
+            fill(255, 255, 0);
+            text("You WIN!!", 345, Constants.HEIGHT/2 + 40);
+        }
+
     }
 
     public void keyPressed(){
