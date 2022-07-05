@@ -7,6 +7,7 @@ import projectiles.Projectile;
 import tools.Clock;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Shooter extends Enemy{
     Launcher launcher;
@@ -21,15 +22,19 @@ public class Shooter extends Enemy{
     }
 
     public void run(Player player, ArrayList<Enemy> enemies, Clock clock, PApplet pa) {
+        launcher.update(pa);
         PVector target = target(player.getPos());
         if (inRange(target) && canAttack(clock)){
             attack(player, clock);
         }
 
         for (Projectile p : launcher.getProjectiles()){
+            p.run(pa);
             if (p.collides(player)){
+                System.out.println("TRUE");
                 player.health -= damage;
                 time_of_attack = clock.getTime();
+                p.setDead();
             }
         }
 
@@ -51,9 +56,6 @@ public class Shooter extends Enemy{
 //        pa.rectMode(PApplet.CENTER);
         pa.fill(150, 0, 0);
         pa.rect(getPos().x, getPos().y, 2*r, 2*r);
-        for (Projectile p : launcher.getProjectiles()){
-            p.run(pa);
-        }
 //        displayHitBox(pa);
         launcher.displayAttackRange(pa);
         displayHealthbar(pa);

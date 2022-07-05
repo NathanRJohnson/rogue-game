@@ -115,6 +115,7 @@ public class Room {
             unlockDoors();
         }
 
+//        Player's projectiles
         for (Projectile p : p.getLauncher().getProjectiles()) {
             for (Enemy e : enemies) {
                 if (e.collides(p)) {
