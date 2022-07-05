@@ -132,9 +132,10 @@ public class Charger extends Enemy{
         } else if (isCooldown){
             pa.fill(0, 0, 200);
         } else {
-            pa.fill(health, 255 - health, 0);
+            pa.fill(150, 0, 0);
         }
         pa.rect(getPos().x, getPos().y, 2*r, 2*r);
+        displayHealthbar(pa);
     }
 
 

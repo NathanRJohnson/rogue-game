@@ -3,6 +3,7 @@ package entities;
 import processing.core.PApplet;
 import processing.core.PVector;
 import tools.Clock;
+import tools.Constants;
 
 import java.util.ArrayList;
 
@@ -16,7 +17,7 @@ public class Enemy extends Entity{
     protected boolean canAttack;
 
     public Enemy(PApplet pa) {
-        super(pa.random(100, 500), pa.random(100, 500), 70, 70);
+        super(pa.random(100, Constants.WIDTH - 100), pa.random(100, Constants.HEIGHT - 100), 70, 70);
         health = 255;
         r = 35;
         maxspeed = 3;
@@ -126,8 +127,9 @@ public class Enemy extends Entity{
     @Override
     void display(PApplet pa) {
 //        pa.rectMode(PApplet.CENTER);
-        pa.fill(255 - health, health, 0);
+        pa.fill(150, 0, 0);
         pa.rect(getPos().x, getPos().y, 2*r, 2*r);
+        displayHealthbar(pa);
 //        displayHitBox(pa);
     }
     public void setCanAttack(boolean b){

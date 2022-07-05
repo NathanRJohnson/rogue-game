@@ -13,7 +13,7 @@ public class Shooter extends Enemy{
     public Shooter(PApplet pa){
         super(pa);
         maxspeed = 0;
-        attack_range = 250;
+        attack_range = 350;
         launcher = new Launcher(getCenteredPos(), attack_range, 5);
         damage = 50;
 
@@ -49,13 +49,14 @@ public class Shooter extends Enemy{
 
     void display(PApplet pa) {
 //        pa.rectMode(PApplet.CENTER);
-        pa.fill(0, health, 255 - health);
+        pa.fill(150, 0, 0);
         pa.rect(getPos().x, getPos().y, 2*r, 2*r);
         for (Projectile p : launcher.getProjectiles()){
             p.run(pa);
         }
 //        displayHitBox(pa);
         launcher.displayAttackRange(pa);
+        displayHealthbar(pa);
     }
 
 }

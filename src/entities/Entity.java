@@ -46,4 +46,9 @@ public abstract class Entity extends GameObject {
     public void setYVel(float _y) {
         vel.y = _y;
     }
+
+    public void displayHealthbar(PApplet pa) {
+        pa.fill(255 - health, health, 0);
+        pa.rect(getPos().x, getPos().y - 20, pa.map(health, 0, 255, 0, getWidth()), 5);
+    }
 }

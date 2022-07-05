@@ -31,13 +31,14 @@ public class Projectile extends GameObject {
 
     private void update() {
         addToPos(vel);
+        lifespan -= decay_rate;
         updateHitBox();
     }
 
     private void display(PApplet pa) {
         pa.fill(255, 0, 0);
         pa.ellipse(getPos().x + 7, getPos().y + 7, 15, 15);
-        lifespan -= decay_rate;
+
 //        displayHitBox(pa);
     }
 

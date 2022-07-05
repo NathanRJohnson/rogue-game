@@ -48,7 +48,7 @@ public class Room {
         } else if (r < 0.66) {
             generate_two(pa);
         } else {
-            generate_two(pa);
+            generate_three(pa);
         }
     }
 
