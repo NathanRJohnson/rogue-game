@@ -35,6 +35,10 @@ public abstract class Entity extends GameObject {
         p.setDead();
     }
 
+    public float getHealth(){
+        return health;
+    }
+
     public PVector GetVel() {
         return vel.copy();
     }

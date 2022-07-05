@@ -145,6 +145,14 @@ public class Room {
         enemies.add(new Charger(pa));
     }
 
+    public int getRoomNum(){
+        return d_room_num;
+    }
+
+    public ArrayList getEnemies(){
+        return enemies;
+    }
+
     public HashMap<Direction, Door> getDoorsMap(){
         return doors;
     }
