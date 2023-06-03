@@ -71,7 +71,6 @@ public class Player extends Entity{
         pa.endShape(PApplet.CLOSE);
         pa.popMatrix();
 
-
         pa.fill(0);
         pa.textSize(16);
         pa.text("Health", 55, 720);
@@ -80,11 +79,7 @@ public class Player extends Entity{
         pa.stroke(1);
         pa.noFill();
         pa.rect(55, 730, 255, 35);
-
-//        displayHitBox(pa);
     }
-
-
 
     public void setPosByCompass(Direction d) {
         switch (d) {

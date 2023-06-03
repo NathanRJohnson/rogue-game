@@ -1,8 +1,8 @@
 package entities;
 
+import projectiles.Projectile;
 import processing.core.PApplet;
 import processing.core.PVector;
-import projectiles.Projectile;
 
 public abstract class Entity extends GameObject {
     PVector vel, acc;

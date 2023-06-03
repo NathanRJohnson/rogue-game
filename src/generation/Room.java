@@ -4,8 +4,8 @@ import entities.Charger;
 import entities.Enemy;
 import entities.Player;
 import entities.Shooter;
-import processing.core.PApplet;
 import projectiles.Projectile;
+import processing.core.PApplet;
 import tools.Clock;
 import tools.Constants;
 import tools.Direction;
@@ -13,6 +13,7 @@ import entities.Entity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+
 
 import static java.lang.Math.random;
 

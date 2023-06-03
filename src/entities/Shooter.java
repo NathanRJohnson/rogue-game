@@ -7,7 +7,6 @@ import projectiles.Projectile;
 import tools.Clock;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Shooter extends Enemy{
     Launcher launcher;

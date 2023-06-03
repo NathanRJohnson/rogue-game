@@ -3,7 +3,6 @@ package generation;
 import entities.GameObject;
 import entities.Player;
 import processing.core.PApplet;
-import processing.core.PVector;
 import tools.Constants;
 import tools.Direction;
 

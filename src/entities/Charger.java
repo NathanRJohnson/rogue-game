@@ -56,7 +56,6 @@ public class Charger extends Enemy{
         if (isWalking && time_of_walk + walk_time < clock.getTime()) {
             windup(clock);
             isWalking = false;
-            System.out.println("winding up!");
             setCanAttack(false);
             maxspeed = 0;
         }
@@ -73,7 +72,6 @@ public class Charger extends Enemy{
             charge(target(player.getPos()));
             time_of_charge = clock.getTime();
             setCanAttack(true);
-            System.out.println("charging!");
         }
 
         //player gets hit
@@ -90,7 +88,6 @@ public class Charger extends Enemy{
             isCooldown = true;
             maxspeed = 0;
             time_of_cooldown = clock.getTime();
-            System.out.println("cool down time!");
         }
 
         //end of cool down, start walking
@@ -99,7 +96,6 @@ public class Charger extends Enemy{
             isWalking = true;
             time_of_walk = clock.getTime();
             seek(player.getPos());
-            System.out.println("walk time");
             maxspeed = (float) walk_speed;
         }
 

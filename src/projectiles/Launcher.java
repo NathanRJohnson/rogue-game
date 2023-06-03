@@ -12,7 +12,7 @@ public class Launcher {
     private ArrayList<Projectile> projectiles;
     Iterator<Projectile> it;
 
-
+    
     public Launcher(PVector _pos, float _range, float _speed) {
         projectiles = new ArrayList<Projectile>();
         pos = _pos.copy();
@@ -60,6 +60,7 @@ public class Launcher {
         range = _r;
     }
 
+    //change the speed of the projectile
     public void setSpeed(float _s) {
         speed = _s;
     }
