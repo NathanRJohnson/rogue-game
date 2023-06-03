@@ -28,10 +28,10 @@ public class Player extends Entity{
     }
 
     @Override
-    public void update(PApplet p) {
-        launcher.update(p);
+    public void update(PApplet pa) {
+        launcher.update(pa);
         move();
-        facing = PVector.sub(new PVector(p.mouseX, p.mouseY), getPos());
+        facing = PVector.sub(new PVector(pa.mouseX, pa.mouseY), getPos());
 
         //removes creep
         if (PApplet.abs(vel.mag())<= 0.1) {
@@ -57,9 +57,9 @@ public class Player extends Entity{
 
     @Override
     public void display(PApplet pa) {
-        pa.fill(193,	37,	173);
+        pa.fill(193,37,	173);
         float theta = facing.heading() + PApplet.PI/2;
-        pa.fill(255-health, health, 0);
+        pa.fill(0,50,200);
         pa.stroke(0);
         pa.pushMatrix();
         pa.translate(getPos().x + r, getPos().y + r);
@@ -70,7 +70,15 @@ public class Player extends Entity{
         pa.vertex(r, r*2);
         pa.endShape(PApplet.CLOSE);
         pa.popMatrix();
-//        displayHitBox(pa);
+
+        pa.fill(0);
+        pa.textSize(16);
+        pa.text("Health", 55, 720);
+        pa.fill(0, 200, 0);
+        pa.rect(55, 730, PApplet.max(health, 0), 35);
+        pa.stroke(1);
+        pa.noFill();
+        pa.rect(55, 730, 255, 35);
     }
 
     public void setPosByCompass(Direction d) {
@@ -89,8 +97,8 @@ public class Player extends Entity{
         }
     }
 
-    public void fire(PApplet p) {
-        launcher.fire(p);
+    public void fire(PVector target) {
+        launcher.fire(target);
     }
 
     public Launcher getLauncher() {

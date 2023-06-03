@@ -1,16 +1,16 @@
 package entities;
 
+import projectiles.Projectile;
 import processing.core.PApplet;
 import processing.core.PVector;
-import projectiles.Projectile;
 
-abstract class Entity extends GameObject {
+public abstract class Entity extends GameObject {
     PVector vel, acc;
     float maxspeed, r;
     float health;
 
     Entity(float x, float y, float _w, float _h){
-        super( new PVector(x, y), _w, _h );
+        super(new PVector(x, y), _w, _h );
         vel = new PVector();
         acc = new PVector();
         maxspeed = 6;
@@ -35,6 +35,10 @@ abstract class Entity extends GameObject {
         p.setDead();
     }
 
+    public float getHealth(){
+        return health;
+    }
+
     public PVector GetVel() {
         return vel.copy();
     }
@@ -45,5 +49,10 @@ abstract class Entity extends GameObject {
 
     public void setYVel(float _y) {
         vel.y = _y;
+    }
+
+    public void displayHealthbar(PApplet pa) {
+        pa.fill(255 - health, health, 0);
+        pa.rect(getPos().x, getPos().y - 20, pa.map(health, 0, 255, 0, getWidth()), 5);
     }
 }
