@@ -17,7 +17,6 @@ public class Projectile extends GameObject {
         decay_rate = _speed;
         damage = _damage;
         isDead = false;
-
     }
 
     public boolean isDead() {

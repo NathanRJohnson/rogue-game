@@ -1,9 +1,7 @@
 package generation;
 
-import entities.Charger;
 import entities.Enemy;
 import entities.Player;
-import entities.Shooter;
 import projectiles.Projectile;
 import processing.core.PApplet;
 import tools.Clock;
@@ -26,7 +24,7 @@ public class Room {
 
     private float north_boundary, south_boundary, east_boundary, west_boundary;
 
-    Room(Player _p, Clock _c) {
+    public Room(Player _p, Clock _c) {
         enemies = new ArrayList<Enemy>();
         p = _p;
         clock = _c;
@@ -137,13 +135,13 @@ public class Room {
     }
     private void generate_two(PApplet pa){
         enemies.add(new Enemy(pa));
-        enemies.add(new Shooter(pa));
-        enemies.add(new Shooter(pa));
+        enemies.add(new Enemy(pa));
+        enemies.add(new Enemy(pa));
     }
     private void generate_three(PApplet pa){
-        enemies.add(new Charger(pa));
-        enemies.add(new Shooter(pa));
-        enemies.add(new Charger(pa));
+        enemies.add(new Enemy(pa));
+        enemies.add(new Enemy(pa));
+        enemies.add(new Enemy(pa));
     }
 
     public int getRoomNum(){

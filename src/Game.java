@@ -13,7 +13,6 @@ public class Game extends PApplet{
     Player player;
     Room r;
     Clock clock;
-    Map m;
     PApplet gameWindow;
     int gameState;
 
@@ -22,9 +21,7 @@ public class Game extends PApplet{
         player = new Player();
         clock = new Clock();
 
-        m = new Map(player, clock);
-        m.buildMapGraph(this);
-        r = m.getStartRoom();
+        r = new Room(player, clock);
         gameState = Constants.GAMESTATE_PLAY;
     }
 
