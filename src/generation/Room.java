@@ -12,9 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-
-import static java.lang.Math.random;
-
 public class Room {
     private ArrayList<Enemy> enemies;
     private Player p;
@@ -148,7 +145,7 @@ public class Room {
         return d_room_num;
     }
 
-    public ArrayList getEnemies(){
+    public ArrayList<Enemy> getEnemies(){
         return enemies;
     }
 

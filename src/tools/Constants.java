@@ -12,5 +12,7 @@ public final class Constants {
     public static final int GAMESTATE_LOSE = -1;
     public static final int GAMESTATE_PLAY = 0;
 
+    public static final int PLAYER_RADIUS = 30;
+
     private Constants(){}
 }
