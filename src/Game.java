@@ -1,5 +1,5 @@
 import entities.Player;
-import entities.Wall;
+import entities.Obstacle;
 import generation.Room;
 import processing.core.PApplet;
 import processing.core.PVector;
@@ -12,18 +12,23 @@ public class Game extends PApplet{
   Room r;
   Clock clock;
   PApplet gameWindow;
-  Wall w, w2, w3, w4;
+  Obstacle obstacle;
   int gameState;
 
   public void settings(){
     size(Constants.WIDTH,Constants.HEIGHT);
     player = new Player();
     clock = new Clock();
-    //                    _start                 _end 
-    w = new Wall( new PVector(500, 200), new PVector(300, 100)); // top
-    w2 = new Wall(new PVector(400, 500), new PVector(500, 200)); // right
-    w3 = new Wall(new PVector(300, 400), new PVector(400, 500)); // bottom
-    w4 = new Wall(new PVector(300, 100), new PVector(300, 400)); // left
+    obstacle = Obstacle.newBuilder()
+        .addVertex(new PVector(500, 200))
+        .addVertex(new PVector(300, 100))
+        .addVertex(new PVector(300, 400))
+        .addVertex(new PVector(400, 500))
+        .build();
+    // BA = new Wall( new PVector(500, 200), new PVector(300, 100)); // top
+    // CB = new Wall(new PVector(400, 500), new PVector(500, 200)); // right
+    // DC = new Wall(new PVector(300, 400), new PVector(400, 500)); // bottom
+    // AD = new Wall(new PVector(300, 100), new PVector(300, 400)); // left
     r = new Room(player, clock);
     gameState = Constants.GAMESTATE_PLAY;
   }
@@ -31,10 +36,7 @@ public class Game extends PApplet{
   public void draw() {
     gameWindow = this;
     r.run(gameWindow);
-    w.run(gameWindow, player);
-    w2.run(gameWindow, player);
-    w3.run(gameWindow, player);
-    w4.run(gameWindow, player);
+    obstacle.run(gameWindow, player);
     player.run(gameWindow);
     r.applyBoundaries(player);
     
