@@ -26,7 +26,7 @@ public class Wall {
     wallType = determineWallType();
     minArea = 0.5 * PApplet.abs(PVector.sub(start, end).mag()) * Constants.PLAYER_RADIUS;
   }
-
+    
   /**
    * Determines if the wall is a vertical, horizontal, or angled wall. Not currently used.
    * 
@@ -44,13 +44,12 @@ public class Wall {
 
   public void run(PApplet pa, Player player){
     if (isHit(player)){
-      pa.fill(255, 0, 0);
       player.setVel(computeNewEntityVelocity(player));
     }
     display(pa);
   }
 
-  public boolean isHit(Player player) {
+  private boolean isHit(Player player) {
     return inWallFOV(player) && isTriangleMinArea(player);
   }
   
@@ -61,7 +60,7 @@ public class Wall {
    * @param player: The player.
    * @return true if the player is in the field of view of the blocking side of the wall.
    */
-  public boolean inWallFOV(Player player) {
+  private boolean inWallFOV(Player player) {
     float endStartPlayerAngle = endStartPlayerAngle(player);
     float startEndPlayerAngle = startEndPlayerAngle(player);   
 
@@ -101,12 +100,12 @@ public class Wall {
    * @param player: The player.
    * @return true if the area of the triangle is equal to the non-blocking minimum.
    */
-  public boolean isTriangleMinArea(Player player){
+  private boolean isTriangleMinArea(Player player){
     double currentArea = 0.5 * PApplet.abs(start.x * (end.y - player.getPos().y) + end.x * (player.getPos().y - start.y) + player.getPos().x * (start.y - end.y));
     return currentArea <= minArea;
   }
 
-  public PVector computeNewEntityVelocity(Player player){
+  private PVector computeNewEntityVelocity(Player player){
     float angle = angleOfVelocityRelativeToWall(player);
     if (angle > 0 && angle < PApplet.PI) {
       return player.GetVel();
@@ -129,5 +128,13 @@ public class Wall {
     // pa.line(start.x, start.y + 1, end.x, end.y + 1);
     pa.line(start.x, start.y, end.x, end.y);
     pa.strokeWeight(1);
+  }
+
+  public PVector getStart() {
+    return start.copy();
+  }
+
+  public PVector getEnd() {
+    return end.copy();
   }
 }

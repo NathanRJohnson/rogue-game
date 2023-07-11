@@ -4,6 +4,7 @@ import processing.core.PApplet;
 import processing.core.PVector;
 import projectiles.Launcher;
 import tools.Constants;
+import projectiles.Ray;
 
 public class Player extends Entity {
   private final int FORWARD = 0;
@@ -26,7 +27,7 @@ public class Player extends Entity {
     super(500,500, 40, 40);
     facing = new PVector();
     inputs = new boolean[6];
-    launcher = new Launcher(getPos(), 400, 8);
+    launcher = new Launcher(getPos(), 16);
     launcher.setDamage(150);
     r = Constants.PLAYER_RADIUS;
     health = 255;
@@ -99,7 +100,7 @@ public class Player extends Entity {
 
   @Override
   public void display(PApplet pa) {
-    pa.fill(193, 37, 173);
+    // pa.fill(193, 37, 173);
     float theta = facing.heading() + PApplet.PI / 2;
     pa.fill(0, 50, 200);
     pa.stroke(0);
@@ -116,12 +117,11 @@ public class Player extends Entity {
     pa.fill(0, 200, 0);
     pa.rect(55, 730, PApplet.max(health, 0), 35);
     pa.stroke(1);
-    pa.noFill();
     pa.rect(55, 730, 255, 35);
   }
 
-  public void fire(PVector target) {
-    launcher.fire(target);
+  public void fire(PVector target, Obstacle obs) {
+    launcher.fire(target, obs);
   }
 
   public Launcher getLauncher() {

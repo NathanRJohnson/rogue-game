@@ -35,8 +35,8 @@ public class Projectile extends GameObject {
     }
 
     private void display(PApplet pa) {
-        pa.fill(255, 0, 0);
-        pa.ellipse(getPos().x + 7, getPos().y + 7, 15, 15);
+        pa.fill(150, 150, 0);
+        pa.ellipse(getPos().x + 7, getPos().y + 7, 6, 6);
 
 //        displayHitBox(pa);
     }

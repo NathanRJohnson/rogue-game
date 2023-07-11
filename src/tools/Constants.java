@@ -14,5 +14,7 @@ public final class Constants {
 
     public static final int PLAYER_RADIUS = 30;
 
+    public static final float MAX_RANGE = 999999;
+
     private Constants(){}
 }
