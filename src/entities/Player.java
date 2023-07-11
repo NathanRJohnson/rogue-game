@@ -3,6 +3,7 @@ package entities;
 import processing.core.PApplet;
 import processing.core.PVector;
 import projectiles.Launcher;
+import tools.Constants;
 
 public class Player extends Entity {
   private final int FORWARD = 0;
@@ -27,7 +28,7 @@ public class Player extends Entity {
     inputs = new boolean[6];
     launcher = new Launcher(getPos(), 400, 8);
     launcher.setDamage(150);
-    r = 15;
+    r = Constants.PLAYER_RADIUS;
     health = 255;
     walkSpeed = 3;
     sprintSpeed = 6;
@@ -103,15 +104,12 @@ public class Player extends Entity {
     pa.fill(0, 50, 200);
     pa.stroke(0);
     pa.pushMatrix();
-    pa.translate(getPos().x + r, getPos().y + r);
+    pa.translate(getPos().x, getPos().y);
     pa.rotate(theta);
-    pa.beginShape();
-    pa.vertex(0, -r*2);
-    pa.vertex(-r, r*2);
-    pa.vertex(r, r*2);
-    pa.endShape(PApplet.CLOSE);
+    pa.ellipse(0, 0, 2 * r, 2 *r);
+    pa.fill(200, 200, 50);
+    pa.ellipse(0, -10, r, r/2);
     pa.popMatrix();
-
     pa.fill(0);
     pa.textSize(16);
     pa.text("Health", 55, 720);

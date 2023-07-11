@@ -43,6 +43,10 @@ public abstract class Entity extends GameObject {
         return vel.copy();
     }
 
+    public void setVel(PVector new_vel){
+      vel = new_vel;
+    }
+
     public void setXVel(float _x) {
         vel.x = _x;
     }
@@ -51,8 +55,12 @@ public abstract class Entity extends GameObject {
         vel.y = _y;
     }
 
+    public float getRadius() {
+      return r;
+    }
+
     public void displayHealthbar(PApplet pa) {
         pa.fill(255 - health, health, 0);
-        pa.rect(getPos().x, getPos().y - 20, pa.map(health, 0, 255, 0, getWidth()), 5);
+        pa.rect(getPos().x, getPos().y - 20, PApplet.map(health, 0, 255, 0, getWidth()), 5);
     }
 }
