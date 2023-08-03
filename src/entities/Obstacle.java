@@ -6,17 +6,21 @@ import java.util.ArrayList;
 
 import processing.core.PApplet;
 import processing.core.PVector;
+import processing.core.PShape;
 
 public class Obstacle {
   private ArrayList<Wall> walls;
   private Iterator<Wall> wallIterator;
+  private PShape shape;
+  private Builder builder;
 
   public Obstacle(Builder builder) {
+    this.builder = builder;
     walls = new ArrayList<>(builder.verticies.size() - 1);
     makeWalls(builder);
   }
 
-  public void makeWalls(Builder builder){
+  private void makeWalls(Builder builder){
     Iterator<PVector> it = builder.verticies.iterator();
     PVector firstVertex = it.next();
     PVector lastVertex = firstVertex;
@@ -35,8 +39,23 @@ public class Obstacle {
     while (wallIterator.hasNext()){
       Wall w = wallIterator.next();
       w.run(pa, player);
-      w.display(pa);
     }
+    pa.shape(shape);
+  }
+
+  public void loadShape(PApplet pa) {
+    shape = pa.createShape();
+    shape.beginShape();
+    for (PVector vertex : builder.verticies) {
+      shape.vertex(vertex.x, vertex.y);
+    }
+    shape.endShape(PApplet.CLOSE);
+    shape.setFill(pa.color(50, 0, 20));
+    PApplet.println("");
+  }
+
+  public Iterator<Wall> getIterator() {
+    return walls.iterator();
   }
   
   public static Builder newBuilder(){

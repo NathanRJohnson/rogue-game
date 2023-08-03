@@ -94,7 +94,7 @@ public class Room {
 
     //display and update
     public void run(PApplet pa) {
-        pa.background(100);
+        pa.background(150);
         pa.text(d_room_num, 50, 50);
         Iterator<Enemy> it = enemies.iterator();
 
