@@ -4,7 +4,6 @@ import processing.core.PApplet;
 import processing.core.PVector;
 import projectiles.Launcher;
 import tools.Constants;
-import projectiles.Ray;
 
 public class Player extends Entity {
   private final int FORWARD = 0;

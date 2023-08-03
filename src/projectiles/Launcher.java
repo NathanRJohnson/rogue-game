@@ -53,7 +53,6 @@ public class Launcher {
     }
 
     public void fire(PVector target, Obstacle obs) {
-        //PVector mouse = new PVector(width/2, 0);
         PVector error = new PVector();
         if (bulletsInCurrentSpray > bulletsBeforeBloom) {
           float bloom = PApplet.min(bulletsInCurrentSpray * bloomRate, maxBloom);
