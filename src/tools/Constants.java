@@ -16,5 +16,7 @@ public final class Constants {
 
     public static final float MAX_RANGE = 1200;
 
+    public static final double HEADSHOT_MODIFIER = 1.5;
+
     private Constants(){}
 }

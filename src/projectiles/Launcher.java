@@ -20,7 +20,7 @@ public class Launcher {
     private ArrayList<Projectile> projectiles;
     Iterator<Projectile> it;
     private Ray ray;
-    private Clock clock = new Clock();
+    private Clock clock = Clock.getInstance();
     private double lastShotTime;
 
     public Launcher(PVector _pos, float _speed) {

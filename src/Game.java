@@ -1,29 +1,35 @@
 import entities.Player;
+import entities.Zombie;
 import entities.Obstacle;
-import generation.Room;
 import processing.core.PApplet;
 import processing.core.PVector;
+import managers.CombatManager;
 import tools.Clock;
 import tools.Constants;
 import java.util.Iterator;
+import managers.Horde;
 import entities.Wall;
 
 public class Game extends PApplet{
-
   Player player;
-  Room r;
   Clock clock;
   PApplet gameWindow;
   Obstacle obstacle;
   int gameState;
   Iterator<Wall> wallIterator;
-
+  Horde horde;
+  CombatManager cm;
+  
   public void settings() {
     size(Constants.WIDTH,Constants.HEIGHT);
     player = new Player();
-    clock = new Clock();
-    r = new Room(player, clock);
+    clock = Clock.getInstance();
     gameState = Constants.GAMESTATE_PLAY;
+    horde = new Horde();
+    for (int i = 0; i < 15; i++){
+      horde.addZombie(new Zombie(100 * i, 0));
+    }
+    cm = new CombatManager(player, horde);
   }
 
   public void setup() {
@@ -38,10 +44,11 @@ public class Game extends PApplet{
 
   public void draw() {
     gameWindow = this;
-    r.run(gameWindow);
+    background(200, 200, 200);
     player.run(gameWindow);
-    r.applyBoundaries(player);
+    horde.run(gameWindow, player);
     obstacle.run(gameWindow, player);
+    cm.runCombat();
   }
 
   public void keyPressed(){

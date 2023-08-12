@@ -63,4 +63,8 @@ public abstract class Entity extends GameObject {
         pa.fill(255 - health, health, 0);
         pa.rect(getPos().x, getPos().y - 20, PApplet.map(health, 0, 255, 0, getWidth()), 5);
     }
+
+    public void receiveDamage(double damage) {
+      health -= damage;
+    }
 }
