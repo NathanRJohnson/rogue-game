@@ -27,7 +27,7 @@ public class Player extends Entity {
     facing = new PVector();
     inputs = new boolean[6];
     launcher = new Launcher(getPos(), 16);
-    launcher.setDamage(150);
+    launcher.setDamage(45);
     r = Constants.PLAYER_RADIUS;
     health = 255;
     walkSpeed = 3;
