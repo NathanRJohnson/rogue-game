@@ -51,7 +51,6 @@ public class Obstacle {
     }
     shape.endShape(PApplet.CLOSE);
     shape.setFill(pa.color(50, 0, 20));
-    PApplet.println("");
   }
 
   public Iterator<Wall> getIterator() {

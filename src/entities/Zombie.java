@@ -17,6 +17,10 @@ public class Zombie extends Entity {
   protected boolean canAttack;
   protected PVector facing;
 
+  public Zombie() {
+    this(0, 0);
+  }
+  
   public Zombie(float x, float y) {
     super(x, y, 35, 35);
     attackDamage = 25;

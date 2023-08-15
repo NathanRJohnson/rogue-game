@@ -28,8 +28,12 @@ public class CoolDown {
     state = State.NOT_STARTED;
   }
 
-  public boolean hasStarted() {
-    return state == State.STARTED;
+  public boolean isCoolingDown() {
+    return hasBeenStarted() && !hasElapsed();
+  }
+
+  public boolean hasBeenStarted() {
+    return state != State.NOT_STARTED;
   }
 
   private enum State {
