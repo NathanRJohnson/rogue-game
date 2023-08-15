@@ -1,4 +1,5 @@
 import entities.Player;
+import entities.Spawner;
 import entities.Zombie;
 import entities.Obstacle;
 import processing.core.PApplet;
@@ -8,6 +9,7 @@ import tools.Clock;
 import tools.Constants;
 import java.util.Iterator;
 import managers.Horde;
+import managers.SpawnerManager;
 import entities.Wall;
 
 public class Game extends PApplet{
@@ -19,6 +21,8 @@ public class Game extends PApplet{
   Iterator<Wall> wallIterator;
   Horde horde;
   CombatManager cm;
+  // Spawner spawner;
+  SpawnerManager sm;
   
   public void settings() {
     size(Constants.WIDTH,Constants.HEIGHT);
@@ -26,10 +30,11 @@ public class Game extends PApplet{
     clock = Clock.getInstance();
     gameState = Constants.GAMESTATE_PLAY;
     horde = new Horde();
-    for (int i = 0; i < 15; i++){
-      horde.addZombie(new Zombie(100 * i, 0));
-    }
     cm = new CombatManager(player, horde);
+    sm = new SpawnerManager();
+    sm.AddSpawner(new Spawner(new PVector(700, 200), 50, 0))
+      .AddSpawner(new Spawner(new PVector(900, 400), 50, 0))
+      .AddSpawner(new Spawner(new PVector(700, 500), 50, 0));
   }
 
   public void setup() {
@@ -49,13 +54,22 @@ public class Game extends PApplet{
     horde.run(gameWindow, player);
     obstacle.run(gameWindow, player);
     cm.runCombat();
+    // spawner.display(gameWindow);
+    sm.run(gameWindow, player);
   }
 
-  public void keyPressed(){
+  public void keyPressed() {
+    if (key == 'm') {
+      Zombie z = new Zombie();
+      sm.updateActiveSpawnersByProximityTo(player);
+      sm.spawn(z);
+      horde.addZombie(z);
+      return;
+    }
     player.press(key, keyCode);
   }
 
-  public void keyReleased(){
+  public void keyReleased() {
     player.release(key, keyCode);
   }
 
