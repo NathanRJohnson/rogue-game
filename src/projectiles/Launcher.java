@@ -37,7 +37,6 @@ public class Launcher {
     }
 
     public void update(PApplet p) {
-      clock.run();
       if (clock.getTime() - lastShotTime > 0.5) {
         bulletsInCurrentSpray = 0;
       }
@@ -58,7 +57,7 @@ public class Launcher {
           float bloom = PApplet.min(bulletsInCurrentSpray * bloomRate, maxBloom);
           error = PVector.random2D().normalize().mult(bloom);
         }
-        PVector direction = PVector.sub(target, pos).sub(error);
+        PVector direction = PVector.sub(target.sub(Constants.ORIGIN), pos).sub(error);
         ray.setDirection(direction);
         range = calculateProjectileDistanceFromObstacle(obs);
         direction.normalize();

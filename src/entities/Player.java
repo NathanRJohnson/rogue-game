@@ -4,6 +4,7 @@ import processing.core.PApplet;
 import processing.core.PVector;
 import projectiles.Launcher;
 import tools.Constants;
+import tools.Mouse;
 
 public class Player extends Entity {
   private final int FORWARD = 0;
@@ -21,13 +22,12 @@ public class Player extends Entity {
   private float sprintSpeed, walkSpeed, slideSpeed;
   private int movementState;
   private int sprintCharge, slideCharge;
-
   public Player() {
-    super(500,500, 40, 40);
+    super(0, 0, 40, 40);
     facing = new PVector();
     inputs = new boolean[6];
     launcher = new Launcher(getPos(), 16);
-    launcher.setDamage(45);
+    launcher.setDamage(45); 
     r = Constants.PLAYER_RADIUS;
     health = 255;
     walkSpeed = 3;
@@ -43,7 +43,7 @@ public class Player extends Entity {
 
   @Override
   public void update(PApplet pa) {
-    facing = PVector.sub(new PVector(pa.mouseX, pa.mouseY), getPos());
+    facing = PVector.sub(Mouse.getInstance().getPosition().sub(Constants.ORIGIN), getPos());
     addToPos(vel);
     launcher.update(pa);
     launcher.setPos(getPos());

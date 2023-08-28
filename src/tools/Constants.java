@@ -1,5 +1,7 @@
 package tools;
 
+import processing.core.PVector;
+
 public final class Constants {
     public static final int SUCCESS = 1;
     public static final int VALID = 1;
@@ -17,6 +19,8 @@ public final class Constants {
     public static final float MAX_RANGE = 1200;
 
     public static final double HEADSHOT_MODIFIER = 1.5;
+
+    public static final PVector ORIGIN = new PVector(Constants.WIDTH/2, Constants.HEIGHT/2);
 
     private Constants(){}
 }

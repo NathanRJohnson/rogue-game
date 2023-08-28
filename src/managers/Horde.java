@@ -19,7 +19,6 @@ public class Horde {
   }
 
   public void run(PApplet pa, Player player) {
-    clock.run();
     Iterator<Zombie> zIterator = zombies.iterator();
     while (zIterator.hasNext()) {
       Zombie z = zIterator.next();
