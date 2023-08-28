@@ -1,16 +1,20 @@
+import java.util.Iterator;
+
+import processing.core.PApplet;
+import processing.core.PVector;
+
 import entities.Player;
 import entities.Spawner;
 import entities.Zombie;
 import entities.Obstacle;
-import processing.core.PApplet;
-import processing.core.PVector;
-import managers.CombatManager;
-import tools.Clock;
-import tools.Constants;
-import java.util.Iterator;
+import entities.Wall;
 import managers.Horde;
 import managers.SpawnerManager;
-import entities.Wall;
+import managers.CombatManager;
+import tools.Camera;
+import tools.Clock;
+import tools.Constants;
+import tools.Mouse;
 
 public class Game extends PApplet{
   Player player;
@@ -23,11 +27,15 @@ public class Game extends PApplet{
   CombatManager cm;
   // Spawner spawner;
   SpawnerManager sm;
+  Camera camera;
+  Mouse mouse;
   
   public void settings() {
     size(Constants.WIDTH,Constants.HEIGHT);
     player = new Player();
+    camera = new Camera();
     clock = Clock.getInstance();
+    mouse = Mouse.getInstance();
     gameState = Constants.GAMESTATE_PLAY;
     horde = new Horde();
     cm = new CombatManager(player, horde);
@@ -49,12 +57,14 @@ public class Game extends PApplet{
 
   public void draw() {
     gameWindow = this;
+    clock.run();
     background(200, 200, 200);
+    camera.follow(gameWindow, player);
+    mouse.setPositionRelativeTo(gameWindow, player.getPos());
     player.run(gameWindow);
     horde.run(gameWindow, player);
     obstacle.run(gameWindow, player);
     cm.runCombat();
-    // spawner.display(gameWindow);
     sm.run(gameWindow, player);
   }
 
@@ -74,7 +84,7 @@ public class Game extends PApplet{
   }
 
   public void mousePressed() {
-    player.fire(new PVector(mouseX, mouseY), obstacle);
+    player.fire(mouse.getPosition(), obstacle);
   }
 
   public static void main(String[] args) {
