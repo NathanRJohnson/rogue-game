@@ -3,6 +3,7 @@ package entities;
 import processing.core.PApplet;
 import processing.core.PVector;
 import projectiles.Projectile;
+import projectiles.Ray;
 import tools.Clock;
 import tools.CoolDown;
 
@@ -35,20 +36,22 @@ public class Zombie extends Entity {
     timeToAttackPoint = new CoolDown(1.5);
   }
 
-  public void run(PApplet pa, Player player, List<Zombie> zombies, Clock clock) {
-    PVector hunt = target(player.getPos());
-    hunt.mult((float) 0.5);
+  public void run(PApplet pa, List<Zombie> zombies, Clock clock) {
     PVector sep = separate(zombies);
-    applyForce(hunt);
     applyForce(sep);
-    facing = hunt;
     if (isAttacking) {
-      attack(player);
+      // attack(player);
     } else {
       // may rename this to move at some point
       update(pa);
     }
     display(pa);
+  }
+
+  public void hunt(PVector target){
+    PVector hunt = target(target);
+    hunt.mult((float) 0.5);
+    applyForce(hunt);
   }
 
   public void initateAttack() {
@@ -99,6 +102,8 @@ public class Zombie extends Entity {
     vel.limit(maxspeed);
     addToPos(vel);
     acc.mult(0);
+    facing = vel;
+
   }
 
   protected PVector target(PVector player_pos) {
@@ -137,6 +142,86 @@ public class Zombie extends Entity {
     }
 
     return steer;
+  }
+
+  public void follow(List<Path> paths) {
+    PVector target = null;
+    float shortestDistance = 100000000;
+    for (Path path : paths) {
+      PVector newTarget = getClosestPathTarget(path);
+      if (newTarget == null) {
+        continue;
+      }
+      float newDist = PVector.dist(newTarget, getPos());
+      if (newDist < shortestDistance) {
+        shortestDistance = newDist;
+        target = newTarget;
+      }
+    }
+    if (target != null) {
+      seek(target);
+    }
+  }
+
+  public void follow(Path path) {
+    PVector target = getClosestPathTarget(path);
+    if (target != null) {
+      seek(target);
+    }
+  }
+
+  private PVector getClosestPathTarget(Path path) {
+    // Step 1: Predict the vehicle’s future location.
+    PVector predict = vel.copy();
+    predict.normalize();
+    predict.mult(25);
+    PVector predictPos = PVector.add(getPos(), predict);
+
+    PVector target = null;
+    float worldRecord = 100000;
+    // Step 2: Find the normal point along the path.
+    for (int i = 0; i < path.numPoints()-1; i++) {
+      PVector a = path.getPoint(i);
+      PVector b = path.getPoint(i+1);
+
+      PVector normalPoint = getNormalPoint(predictPos, a, b);
+      if (normalPoint.x < a.x || normalPoint.x > b.x) {
+        normalPoint = b.copy();
+      }
+
+      // Step 4: If we are off the path,
+      // seek that target in order to stay on the path.
+      float distance = PVector.dist(normalPoint, predictPos);
+      if (distance < worldRecord) {
+        worldRecord = distance;
+
+        PVector dir = PVector.sub(a, b);
+        dir.normalize();
+        dir.mult(10); // TODO: oversimplification. Should be based on distance to path and velocity;
+        target = normalPoint.copy();
+        target.add(dir);
+      }
+    }
+    
+    if (worldRecord > path.getRadius()) {
+        return target;
+    }
+    return null;
+  }
+
+  private PVector getNormalPoint(PVector p, PVector a, PVector b) {
+    PVector ap = PVector.sub(p, a);
+    // PVector that points from a to b
+    PVector ab = PVector.sub(b, a);
+
+    // Using the dot product for scalar projection
+    ab.normalize();
+    ab.mult(ap.dot(ab));
+
+    // Finding the normal point along the line segment
+    PVector normalPoint = PVector.add(a, ab);
+
+    return normalPoint;
   }
 
   @Override

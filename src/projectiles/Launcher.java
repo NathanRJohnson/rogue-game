@@ -24,16 +24,16 @@ public class Launcher {
     private double lastShotTime;
 
     public Launcher(PVector _pos, float _speed) {
-        projectiles = new ArrayList<Projectile>();
-        pos = _pos.copy();
-        range = 0;
-        speed = _speed; //projectile speed
-        damage = 0;
-        ray = new Ray();
-        lastShotTime = 0;
-        bulletsBeforeBloom = 2;
-        bloomRate = 4;
-        maxBloom = 32;
+      projectiles = new ArrayList<Projectile>();
+      pos = _pos.copy();
+      range = 0;
+      speed = _speed; //projectile speed
+      damage = 0;
+      ray = new Ray();
+      lastShotTime = 0;
+      bulletsBeforeBloom = 2;
+      bloomRate = 4;
+      maxBloom = 32;
     }
 
     public void update(PApplet p) {
@@ -42,32 +42,32 @@ public class Launcher {
         bulletsInCurrentSpray = 0;
       }
       ray.setOrigin(pos);
-        it = projectiles.iterator();
-        while (it.hasNext()) {
-            Projectile temp = it.next();
-            temp.run(p);
-            if (temp.isDead()) {
-                it.remove();
-            }
+      it = projectiles.iterator();
+      while (it.hasNext()) {
+        Projectile temp = it.next();
+        temp.run(p);
+        if (temp.isDead()) {
+            it.remove();
         }
+      }
     }
 
     public void fire(PVector target, Obstacle obs) {
-        PVector error = new PVector();
-        if (bulletsInCurrentSpray > bulletsBeforeBloom) {
-          float bloom = PApplet.min(bulletsInCurrentSpray * bloomRate, maxBloom);
-          error = PVector.random2D().normalize().mult(bloom);
-        }
-        PVector direction = PVector.sub(target, pos).sub(error);
-        ray.setDirection(direction);
-        range = calculateProjectileDistanceFromObstacle(obs);
-        direction.normalize();
-        direction.mult(speed);
-        Projectile p = new Projectile(pos, range, speed, damage);
-        p.setVel(direction);
-        projectiles.add(p);
-        bulletsInCurrentSpray += 1;
-        lastShotTime = clock.getTime();
+      PVector error = new PVector();
+      if (bulletsInCurrentSpray > bulletsBeforeBloom) {
+        float bloom = PApplet.min(bulletsInCurrentSpray * bloomRate, maxBloom);
+        error = PVector.random2D().normalize().mult(bloom);
+      }
+      PVector direction = PVector.sub(target.sub(Constants.ORIGIN), pos).sub(error);
+      ray.setDirection(direction);
+      range = calculateProjectileDistanceFromObstacle(obs);
+      direction.normalize();
+      direction.mult(speed);
+      Projectile p = new Projectile(pos, range, speed, damage);
+      p.setVel(direction);
+      projectiles.add(p);
+      bulletsInCurrentSpray += 1;
+      lastShotTime = clock.getTime();
     }
     
     // Saving for later

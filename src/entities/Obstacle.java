@@ -34,11 +34,12 @@ public class Obstacle {
     walls.add(new Wall(lastVertex, firstVertex));
   }
 
-  public void run(PApplet pa, Player player){
+  public void run(PApplet pa){
     wallIterator = walls.iterator();
     while (wallIterator.hasNext()){
       Wall w = wallIterator.next();
-      w.run(pa, player);
+      // w.run(player);
+      w.display(pa);
     }
     pa.shape(shape);
   }

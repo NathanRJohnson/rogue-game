@@ -42,11 +42,10 @@ public class Wall {
     }
   }
 
-  public void run(PApplet pa, Player player){
+  public void run(Player player){
     if (isHit(player)){
       player.setVel(computeNewEntityVelocity(player));
     }
-    display(pa);
   }
 
   private boolean isHit(Player player) {
